@@ -2,58 +2,76 @@
 # This is a social media bot
 # That will post your favorite quotes into social media
 # Currently supported social media : Twitter
-import tweetpy
-
-credential_list = ["CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_KEY", "ACCESS_SECRET"]
-credential_list = ["CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_KEY", "ACCESS_SECRET"]
-use_environment_variables = bool
-use_file_variables = bool
-amount_of_credentials = len(credential_list)
-credential_counter = 0
-
-CONSUMER_KEY = str
-CONSUMER_SECRET = str
-ACCESS_KEY = str
-ACCESS_SECRET = str
-
-for credential in credential_list:
-    if credential_list[0] in os.environ:
-        credential_counter += 1
-
-if credential_counter == amount_of_credentials:
-    logging.info("All environment variables were found!")
-    use_environment_variables = True
-    use_file_variables = False
-else:
-    logging.warning("Environment variables were not successfully found!")
-    logging.info("Using credentials.py instead.")
-    use_environment_variables = False
-    use_file_variables = True
-
-if use_environment_variables == True:
-    logging.info("Using environment variables.")
-    CONSUMER_KEY = os.environ['CONSUMER_KEY']
-    CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-    ACCESS_KEY = os.environ['ACCESS_KEY']
-    ACCESS_SECRET = os.environ['ACCESS_SECRET']
-elif use_file_variables == True:
-    logging.info("Using file variables.")
-    try:
-        from credentials import *
-    except ImportError:
-        logging.critical("An error occured while importing the credentials from the credentials.py file.")
-        logging.critical("The bot will now shut down.")
-        logging.info("Please check the README.md file for more information.")
-        exit()
-
+# Upcoming bot support : Whatsapp
+import tweepy
+import os
 
 class SocialBot:
-    def __init__(self):        
+    def __init__(self, platform = 'twitter'):
+        self.use_environment_variables = False
         self.credential_list = ["CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_KEY", "ACCESS_SECRET"]
         self.CONSUMER_KEY = ''
         self.CONSUMER_SECRET = ''
         self.ACCESS_KEY = ''
         self.ACCESS_SECRET = ''
+        self.platform = platform
+        self.api = None
+        self.user = None
     
-    def signin(self):
-        pass
+    def init_bot(self):
+        counter = 0
+        for credential in self.credential_list:
+            if credential in os.environ:
+                counter += 1
+                
+        if counter == len(self.credential_list):
+            self.use_environment_variables = True
+            
+    def get_credentials(self):
+        if self.use_environment_variables == True:
+            # print("Using environment variables.")
+            self.CONSUMER_KEY = os.environ['CONSUMER_KEY']
+            self.CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+            self.ACCESS_KEY = os.environ['ACCESS_KEY']
+            self.ACCESS_SECRET = os.environ['ACCESS_SECRET']
+        elif self.use_file_variables == True:
+            # print("Using file variables.")
+            try:
+                # from credentials import Credentials
+                pass
+            except ImportError:
+                print("An error occured while importing the credentials from the credentials.py file.")
+                print("The bot will now shut down.")
+                print("Please check the README.md file for more information.")
+                exit()
+    
+    def user_info(self,api, user):
+        print("self.username: {}".format(self.api.get_user(self.user.id).screen_name))
+        print("Display Name: {}".format(self.user.name))
+        
+    def login(self):
+        # Initialize the bot and get user credentials
+        self.init_bot()
+        self.get_credentials()
+
+        # Then try logging in
+        if self.platform == 'twitter':
+            try:
+                auth = tweepy.OAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+                auth.set_access_token(self.ACCESS_KEY, self.ACCESS_SECRET)
+                self.api = tweepy.API(auth)
+                self.user = self.api.me()
+                self.user_info(self.api, self.user)
+                print("Successfully logged in!")
+        
+            except tweepy.TweepError:
+                print("Authentication error!!!")
+                exit()
+            
+    def post(self, post):
+        if self.platform == 'twitter':
+            try:
+                # post_text = "Here's a motivational quote :\n"
+                self.api.update_status(post[0:140])
+            except:
+                print("Sorry, unable to post. An error occured")

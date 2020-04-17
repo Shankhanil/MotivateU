@@ -7,7 +7,7 @@ class Quotes:
     def __init__(self):
         pass
     
-    def getQuote(self):
+    def generateRandomQuote(self):
         """
         Returns a random Quote
         
@@ -19,5 +19,19 @@ class Quotes:
         response = requests.get(url)
         data = response.text
         parsed = json.loads(data)
-        quote = json.dumps(parsed, indent = 4)
-        return quote
+        quoteJSON = json.dumps(parsed, indent = 4)
+        return quoteJSON
+        
+    def getQuote(self, quoteJSON):
+        # quoteJSON = self.generateRandomQuote()
+        quote = "abc"
+        quoteAuthor = "def"
+        return (quote, quoteAuthor)
+        
+    def formatQuote(self, quoteTuple):
+    # Format quote for printing 
+        pass
+        
+    def DonateAQuote(self, quote, author):
+    # Have a Quote? Donate the quote to 
+        pass
