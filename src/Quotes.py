@@ -8,6 +8,13 @@ class Quotes:
         pass
     
     def getQuote(self):
+        """
+        Returns a random Quote
+        
+        Parameters
+        ----------
+        none
+        """
         url = "https://quote-garden.herokuapp.com/api/v2/quotes/random"
         response = requests.get(url)
         data = response.text

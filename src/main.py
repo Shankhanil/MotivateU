@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from Quotes import Quotes
+from License import License
+
 if __name__ == "__main__":
-    Q = Quotes()
-    print(Q.getQuote())
-    
+    pass
