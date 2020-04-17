@@ -3,6 +3,8 @@
 # That will post your favorite quotes into social media
 # Currently supported social media : Twitter
 # Upcoming bot support : Whatsapp
+
+
 import tweepy
 import os
 
@@ -29,20 +31,17 @@ class SocialBot:
             
     def get_credentials(self):
         if self.use_environment_variables == True:
-            # print("Using environment variables.")
             self.CONSUMER_KEY = os.environ['CONSUMER_KEY']
             self.CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
             self.ACCESS_KEY = os.environ['ACCESS_KEY']
             self.ACCESS_SECRET = os.environ['ACCESS_SECRET']
         elif self.use_file_variables == True:
-            # print("Using file variables.")
             try:
                 # from credentials import Credentials
                 pass
             except ImportError:
-                print("An error occured while importing the credentials from the credentials.py file.")
-                print("The bot will now shut down.")
-                print("Please check the README.md file for more information.")
+                print("An error occured.")
+                print("The bot will not shut down.")
                 exit()
     
     def user_info(self,api, user):
@@ -71,7 +70,6 @@ class SocialBot:
     def post(self, post):
         if self.platform == 'twitter':
             try:
-                # post_text = "Here's a motivational quote :\n"
                 self.api.update_status(post[0:140])
             except:
                 print("Sorry, unable to post. An error occured")
