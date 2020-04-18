@@ -42,7 +42,10 @@ class SocialBot:
             except ImportError:
                 print("An error occured.")
                 print("The bot will not shut down.")
-                exit()
+                self.setup_credentials()
+                
+    def setup_credentials(self):
+        exit()
     
     def user_info(self,api, user):
         print("self.username: {}".format(self.api.get_user(self.user.id).screen_name))
