@@ -51,10 +51,10 @@ class exoREST:
         '''
         data = []
         for p in parameters:
-            _p[0] = (parameters.split('/'))[0]
+            _p0 = (p.split('/'))[0]
             try:
-                _p[1] = (parameters.split('/'))[1]
-                data.append(JSONdict[_p[0]][_p[1]])
+                _p1 = (p.split('/'))[1]
+                data.append(JSONdict[_p0][_p1])
             except:
-                data.append(JSONdict[_p[0]])
+                data.append(JSONdict[_p0])
         return data
