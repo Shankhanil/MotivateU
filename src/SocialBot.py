@@ -51,7 +51,7 @@ class SocialBot:
         print("Username: {}".format(self.api.get_user(self.user.id).screen_name))
         print("Display Name: {}".format(self.user.name))
         
-    def login(self, successMessage):
+    def login(self, successMessage=''):
         # Initialize the bot and get user credentials
         self.init_bot()
         self.get_credentials()
@@ -70,7 +70,7 @@ class SocialBot:
                 print("There's an authentication error!!!")
                 exit()
             
-    def post(self, post, successMessage):
+    def post(self, post, successMessage = ''):
         if self.platform == 'twitter':
             try:
                 self.api.update_status(post[0:140])
