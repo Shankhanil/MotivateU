@@ -48,10 +48,10 @@ class SocialBot:
         exit()
     
     def user_info(self,api, user):
-        print("self.username: {}".format(self.api.get_user(self.user.id).screen_name))
+        print("Username: {}".format(self.api.get_user(self.user.id).screen_name))
         print("Display Name: {}".format(self.user.name))
         
-    def login(self):
+    def login(self, successMessage):
         # Initialize the bot and get user credentials
         self.init_bot()
         self.get_credentials()
@@ -64,15 +64,16 @@ class SocialBot:
                 self.api = tweepy.API(auth)
                 self.user = self.api.me()
                 self.user_info(self.api, self.user)
-                print("Successfully logged in!")
+                print(successMessage)
         
             except tweepy.TweepError:
-                print("Authentication error!!!")
+                print("There's an authentication error!!!")
                 exit()
             
-    def post(self, post):
+    def post(self, post, successMessage):
         if self.platform == 'twitter':
             try:
                 self.api.update_status(post[0:140])
+                print(successMessage)
             except:
                 print("Sorry, unable to post. An error occured")

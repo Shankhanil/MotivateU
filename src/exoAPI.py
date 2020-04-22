@@ -36,7 +36,23 @@ class exoREST:
             return parsed
         if outputformat == 'str':
             return json.dump(parsed)
-
+    
+    def JSONTraverser(indict, pre=None):
+        pre = pre[:] if pre else []
+        if isinstance(indict, dict):
+            for key, value in indict.items():
+                if isinstance(value, dict):
+                    for d in dict_generator(value, pre + [key]):
+                        yield d
+                elif isinstance(value, list) or isinstance(value, tuple):
+                    for v in value:
+                        for d in dict_generator(v, pre + [key]):
+                            yield d
+                else:
+                    yield pre + [key, value]
+        else:
+            yield pre + [indict]
+        
     def getDataFromJSON(self, JSONdict, parameters):
         '''
             parameters: JSON data parameters, which will be

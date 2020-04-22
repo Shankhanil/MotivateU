@@ -7,7 +7,10 @@
 from exoAPI import exoREST
 if __name__ == "__main__":
     api = exoREST()
-    api.addAPI_URL(url_name = 'randomQuote', url = 'https://quote-garden.herokuapp.com/api/v2/quotes/random')
+    api.addAPI_URL(url_name = 'author', url = 'https://quote-garden.herokuapp.com/api/v2/authors/Carl%20Sandburg')
     # api.getURL_LIST()
-    print(api.getDataAsJSON(url_name = 'randomQuote'))
-    
+    x = api.getDataAsJSON(url_name = 'author')
+    gen = api.JSONTraverser(x)
+    for g in next(gen):
+        print(g)
+        

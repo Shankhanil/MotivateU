@@ -41,27 +41,27 @@ class Quotes2:
         self.api = exoREST()
     
     def generateQuote(self, author = 'random'):
-        self.api.addAPI_URL(url_name = 'randomQuote', \
-            url = 'https://quote-garden.herokuapp.com/api/v2/quotes/random')
+        if author == 'random':
+            self.api.addAPI_URL(url_name = author, \
+                url = 'https://quote-garden.herokuapp.com/api/v2/quotes/random')
+        else:
+            self.api.addAPI_URL(url_name = author, \
+                url = 'https://quote-garden.herokuapp.com/api/v2/authors/{}'.format(author))
         
-        return self.api.getDataAsJSON(url_name = 'randomQuote', \
+        return self.api.getDataAsJSON(url_name = author, \
                 method = 'get', outputformat = 'json')
         
     def getQuote(self, quoteJSON):
         params = ['quote/quoteText', 'quote/quoteAuthor']
         
         [quote, quoteAuthor] = self.api.getDataFromJSON(quoteJSON, params)
-        
-        # quote = quoteJSON['quote']['quoteText']
-        # quoteAuthor = quoteJSON['quote']['quoteAuthor']
         return [quote, quoteAuthor]
         
     def formatQuote(self, quoteTuple):
     # Format quote for printing 
-        print('''\n
+        return ('''\n
         {}\n\t\t\t---{}
         '''.format(quoteTuple[0], quoteTuple[1]))
-        pass
         
     def DonateAQuote(self, quote, author):
     # Have a Quote? Donate the quote to 
