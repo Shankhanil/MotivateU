@@ -17,6 +17,7 @@ if __name__ == "__main__":
     
     quote = Quotes2()
     tweetbot = SocialBot()
+    license = License()
     try:
         urllib.request.urlopen('https://google.com')
         try:
@@ -45,13 +46,15 @@ if __name__ == "__main__":
             elif sys.argv[1] == 'donate':
                 print("Donation of Quotes is under construction. Will be operational soon")
                 pass
+            elif sys.argv[1] == 'license':
+                license.license()
             else:
                 raise UnknownCommandException("Unknown command {}".format(sys.argv[1]))
         
         except IndexError:
-            print('''\nPls use \'python src/main.py quote\' to get a quote\n'''\
-                '''Use \'python src/main.py donate\' to donate a quote to QuoteGarden API
-                ''');
+            print('''\nUse \'python src/main.py quote\' to get a quote\n'''\
+                '''Use \'python src/main.py donate\' to donate a quote to QuoteGarden API\n'''\
+                '''Use \'python src/main.py license\' to get license information''');
         except UnknownCommandException:
             print("\n{} is not a known MotivateU command".format(sys.argv[1]))
     except:
