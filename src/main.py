@@ -21,30 +21,27 @@ if __name__ == "__main__":
         urllib.request.urlopen('https://google.com')
         try:
             if sys.argv[1] == 'quote':
-                try:
-                    quote.formatQuote(quote.getQuote(quote.generateQuote(author = sys.argv[2])))
-                except IndexError:
-                    print('Here\'s a random quote for you')
-                    Q = quote.formatQuote(quote.getQuote(quote.generateQuote()))
-                    print(Q)
-                    print("Like this quote? Want to tweet it? (Y/n)")
-                    choice = input()
-                    if choice == 'y' or choice == 'Y':
-                        tweetbot.login()
-                        if len(Q) > 140:
-                            print('''\
-                                This quote is more than 140 characters long.\n\
-                                This tweet will be truncated to 140 characters.\n\
-                                Proceed? (Y/n):''')
-                            choice2 = input()
-                            if choice2 == 'y' or choice2 =='Y' :
-                                tweetbot.post(Q, successMessage = "You've just tweeted an awesome Quote!")
-                            elif choice2 == 'n' or choice2 == 'N':
-                                pass
-                            else:
-                                raise UnknownCommandException("Unknown choice {}".format(choice2))
-                        else:
+                print('Here\'s a random quote for you')
+                Q = quote.formatQuote(quote.getQuote(quote.generateQuote()))
+                print(Q)
+                print("Like this quote? Want to tweet it? (Y/n)")
+                choice = input()
+                if choice == 'y' or choice == 'Y':
+                    tweetbot.login()
+                    if len(Q) > 140:
+                        print('''\
+                            This quote is more than 140 characters long.\n\
+                            This tweet will be truncated to 140 characters.\n\
+                            Proceed? (Y/n):''')
+                        choice2 = input()
+                        if choice2 == 'y' or choice2 =='Y' :
                             tweetbot.post(Q, successMessage = "You've just tweeted an awesome Quote!")
+                        elif choice2 == 'n' or choice2 == 'N':
+                            pass
+                        else:
+                            raise UnknownCommandException("Unknown choice {}".format(choice2))
+                    else:
+                        tweetbot.post(Q, successMessage = "You've just tweeted an awesome Quote!")
             elif sys.argv[1] == 'donate':
                 print("Donation of Quotes is under construction. Will be operational soon")
                 pass
