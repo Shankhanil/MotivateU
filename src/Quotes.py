@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import requests
 import json
+from exoAPI import exoREST
 
 class Quotes:
 
@@ -27,6 +28,40 @@ class Quotes:
         {}\n\t\t\t---{}
         '''.format(quoteTuple[0], quoteTuple[1]))
         pass
+        
+    def DonateAQuote(self, quote, author):
+    # Have a Quote? Donate the quote to 
+        pass
+        
+class Quotes2:
+    '''
+    A Quotes v2.0 : using the exoAPI interface
+    '''
+    def __init__(self):
+        self.api = exoREST()
+    
+    def generateQuote(self, author = 'random'):
+        if author == 'random':
+            self.api.addAPI_URL(url_name = author, \
+                url = 'https://quote-garden.herokuapp.com/api/v2/quotes/random')
+        else:
+            self.api.addAPI_URL(url_name = author, \
+                url = 'https://quote-garden.herokuapp.com/api/v2/authors/{}'.format(author))
+        
+        return self.api.getDataAsJSON(url_name = author, \
+                method = 'get', outputformat = 'json')
+        
+    def getQuote(self, quoteJSON):
+        params = ['quote/quoteText', 'quote/quoteAuthor']
+        
+        [quote, quoteAuthor] = self.api.getDataFromJSON(quoteJSON, params)
+        return [quote, quoteAuthor]
+        
+    def formatQuote(self, quoteTuple):
+    # Format quote for printing 
+        return ('''\n
+        {}\n\t\t\t---{}
+        '''.format(quoteTuple[0], quoteTuple[1]))
         
     def DonateAQuote(self, quote, author):
     # Have a Quote? Donate the quote to 
