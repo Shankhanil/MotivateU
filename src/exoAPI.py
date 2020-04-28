@@ -15,10 +15,15 @@ class exoREST:
         self.url_list = {}
     
     def addAPI_URL(self, url_name, url):
+        if url_name == '':
+            print("url name can not be null")
+            return False
         if url_name not in self.url_list.keys():
             self.url_list[url_name] = url
+            return True        
         else:
             print("try a different url name")
+            return False
             
     def getURL_LIST(self):
         for url_name in self.url_list.keys():
